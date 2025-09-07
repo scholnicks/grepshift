@@ -23,13 +23,15 @@ Options:
 import os
 import re
 import sys
+
 from docopt import docopt
 
-EXCLUDED_DIRECTORIES = (".git", ".hg", ".svn", ".vscode", ".idea", ".metadata", "node_modules", ".gradle", ".m2")
+EXCLUDED_DIRECTORIES: tuple = (".git", ".hg", ".svn", ".vscode", ".idea", ".metadata", "node_modules", ".gradle", ".m2")
 
-arguments = {}
+arguments: dict = {}
 
-def main():
+
+def main() -> None:
     """Main method"""
     global arguments
     arguments = docopt(__doc__, version="1.3.0")
@@ -37,23 +39,23 @@ def main():
     if not arguments["--remove"] and not arguments["<replacement>"]:
         raise SystemExit("grepshift: <replacement> or --remove is required")
 
-    eligibleFiles = []
+    eligibleFiles: list[str] = []
     for root, dirs, files in os.walk(os.path.abspath(arguments["--directory"]), topdown=True):
         dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRECTORIES]
         eligibleFiles += [os.path.join(root, f) for f in files if matches(f)]
 
     for file in eligibleFiles:
         if arguments["--list"]:
-            print("{}".format(file))
+            print("f{file}")
         else:
             processFile(file)
             if arguments["--verbose"]:
-                print("Processed {}".format(file))
+                print(f"Processed {file}")
 
     sys.exit(0)
 
 
-def processFile(file):
+def processFile(file) -> None:
     """Processes a file"""
     with open(file, "r") as inFile:
         input_data = inFile.readlines()
@@ -67,7 +69,7 @@ def processFile(file):
         outFile.writelines(output)
 
 
-def matches(filename):
+def matches(filename) -> bool:
     """Returns if the filename should be processed"""
     return filename.lower().endswith(arguments["--extension"]) if arguments["--extension"] else True
 
