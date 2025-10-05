@@ -34,7 +34,7 @@ arguments: dict = {}
 def main() -> None:
     """Main method"""
     global arguments
-    arguments = docopt(__doc__, version="1.3.0")
+    arguments = docopt(__doc__, version="1.3.1")
 
     if not arguments["--remove"] and not arguments["<replacement>"]:
         raise SystemExit("grepshift: <replacement> or --remove is required")
