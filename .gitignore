@@ -1,9 +1,12 @@
+*.json
 .vscode
 .idea
 .venv
-__pycache__
 *.pyc
 *.pyo
 *.pyd
-dist
 
+__pycache__
+dist
+.idea/
+.vscode/
