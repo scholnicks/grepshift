@@ -21,7 +21,6 @@ Options:
 """
 
 import os
-import re
 import sys
 
 from docopt import docopt
