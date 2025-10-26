@@ -67,7 +67,7 @@ def main() -> None:
     sys.exit(0)
 
 
-def processFile(file) -> None:
+def processFile(file: str) -> None:
     """Processes a file"""
     try:
         with open(file, "r") as inFile:
@@ -92,4 +92,7 @@ def matches(filename) -> bool:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        sys.exit(1)
