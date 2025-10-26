@@ -25,7 +25,20 @@ import sys
 
 from docopt import docopt
 
-EXCLUDED_DIRECTORIES: tuple = (".git", ".hg", ".svn", ".vscode", ".idea", ".metadata", "node_modules", ".gradle", ".m2")
+EXCLUDED_DIRECTORIES: tuple[str, ...] = (
+    ".git",
+    ".hg",
+    ".svn",
+    ".vscode",
+    ".idea",
+    ".metadata",
+    "node_modules",
+    ".gradle",
+    ".m2",
+    ".venv",
+    "venv",
+    "__pycache__",
+)
 
 arguments: dict = {}
 
@@ -33,7 +46,7 @@ arguments: dict = {}
 def main() -> None:
     """Main method"""
     global arguments
-    arguments = docopt(__doc__, version="1.3.1")
+    arguments = docopt(__doc__, version="1.4.0")
 
     if not arguments["--remove"] and not arguments["<replacement>"]:
         raise SystemExit("grepshift: <replacement> or --remove is required")
@@ -56,8 +69,13 @@ def main() -> None:
 
 def processFile(file) -> None:
     """Processes a file"""
-    with open(file, "r") as inFile:
-        input_data = inFile.readlines()
+    try:
+        with open(file, "r") as inFile:
+            input_data = inFile.readlines()
+    except UnicodeDecodeError:
+        if arguments["--verbose"]:
+            print(f"Skipping binary file {file}")
+        return
 
     if arguments["--remove"]:
         output = [line for line in input_data if arguments["<pattern>"] not in line]
