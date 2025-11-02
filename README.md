@@ -1,7 +1,6 @@
 # grepshift
 
-grepshift renames files in powerful ways.
-
+grepshift finds and replaces all instances of a string with a new string in a directory and all its sub-directories.
 ```
 Usage:
     grepshift [options] <pattern> [<replacement>]
