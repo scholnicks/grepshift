@@ -1,6 +1,21 @@
 # grepshift
 
-grepshift finds and replaces all instances of a string with a new string in a directory and all its sub-directories.
+grepshift finds and replaces all instances of a string with a new string in a directory and all its sub-directories. The followinmg directories
+are excluded:
+  * .git
+  * .hg
+  * .svn
+  * .vscode
+  * .idea
+  * .metadata
+  * node_modules
+  * .gradle
+  * .m2
+  * .venv
+  * venv
+  * __pycache__
+
+
 ```
 Usage:
     grepshift [options] <pattern> [<replacement>]
