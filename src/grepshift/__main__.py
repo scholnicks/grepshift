@@ -25,7 +25,7 @@ import sys
 
 from docopt import docopt
 
-EXCLUDED_DIRECTORIES: tuple[str, ...] = (
+EXCLUDED_DIRECTORIES = (
     ".git",
     ".hg",
     ".svn",
@@ -40,7 +40,7 @@ EXCLUDED_DIRECTORIES: tuple[str, ...] = (
     "__pycache__",
 )
 
-arguments: dict = {}
+arguments = {}
 
 
 def main() -> None:
@@ -51,7 +51,7 @@ def main() -> None:
     if not arguments["--remove"] and not arguments["<replacement>"]:
         raise SystemExit("grepshift: <replacement> or --remove is required")
 
-    eligibleFiles: list[str] = []
+    eligibleFiles = []
     for root, dirs, files in os.walk(os.path.abspath(arguments["--directory"]), topdown=True):
         dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRECTORIES]
         eligibleFiles += [os.path.join(root, f) for f in files if matches(f)]
