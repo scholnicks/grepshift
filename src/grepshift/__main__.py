@@ -13,6 +13,8 @@ Usage:
 Options:
     -d, --directory=<directory>   Starting directory [default: .]
     -e, --extension=<extension>   Only process file with this extension
+    --exclude-dir=<dirs>          Comma separated list of directories to exclude
+    --exclude-ext=<exts>          Comma separated list of file extensions to exclude
     -h, --help                    Show this help screen
     -l, --list                    Just list the files to be changed, no actual changes
     -r, --remove                  Removes the line, that matches pattern, from all files
@@ -46,14 +48,18 @@ arguments = {}
 def main() -> None:
     """Main method"""
     global arguments
-    arguments = docopt(__doc__, version="1.4.0")
+    arguments = docopt(__doc__, version="1.5.0")
 
     if not arguments["--remove"] and not arguments["<replacement>"]:
         raise SystemExit("grepshift: <replacement> or --remove is required")
 
+    excludedDirectories = set(EXCLUDED_DIRECTORIES)
+    if arguments["--exclude-dir"]:
+        excludedDirectories.update(d.strip() for d in arguments["--exclude-dir"].split(",") if d.strip())
+
     eligibleFiles = []
     for root, dirs, files in os.walk(os.path.abspath(arguments["--directory"]), topdown=True):
-        dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRECTORIES]
+        dirs[:] = [d for d in dirs if d not in excludedDirectories]
         eligibleFiles += [os.path.join(root, f) for f in files if matches(f)]
 
     for file in eligibleFiles:
@@ -88,6 +94,11 @@ def processFile(file: str) -> None:
 
 def matches(filename) -> bool:
     """Returns if the filename should be processed"""
+    if arguments["--exclude-ext"]:
+        excludedExtensions = {e.strip().lower() for e in arguments["--exclude-ext"].split(",") if e.strip()}
+        if any(filename.lower().endswith(e) for e in excludedExtensions):
+            return False
+
     return filename.lower().endswith(arguments["--extension"]) if arguments["--extension"] else True
 
 
