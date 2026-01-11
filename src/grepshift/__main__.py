@@ -27,7 +27,7 @@ import sys
 
 from docopt import docopt
 
-EXCLUDED_DIRECTORIES = (
+EXCLUDED_DIRECTORIES = {
     ".git",
     ".hg",
     ".svn",
@@ -40,7 +40,7 @@ EXCLUDED_DIRECTORIES = (
     ".venv",
     "venv",
     "__pycache__",
-)
+}
 
 arguments = {}
 
@@ -48,7 +48,7 @@ arguments = {}
 def main() -> None:
     """Main method"""
     global arguments
-    arguments = docopt(__doc__, version="1.5.0")
+    arguments = docopt(__doc__, version="1.5.1")
 
     if not arguments["--remove"] and not arguments["<replacement>"]:
         raise SystemExit("grepshift: <replacement> or --remove is required")
