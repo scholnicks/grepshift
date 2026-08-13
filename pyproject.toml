@@ -1,9 +1,9 @@
 [project]
 name = "grepshift"
-version = "1.5.1"
+version = "1.5.2"
 description = "Find and replace all instances of a string with a new string in a directory and all its sub-directories."
 authors = [{ name = "Steve Scholnick", email = "scholnicks@gmail.com" }]
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 readme = "README.md"
 license = "MIT"
 keywords = [
@@ -20,7 +20,6 @@ keywords = [
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
     "Topic :: Utilities",
 ]

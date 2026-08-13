@@ -24,6 +24,7 @@ Options:
 
 import os
 import sys
+from importlib.metadata import version
 
 from docopt import docopt
 
@@ -48,7 +49,7 @@ arguments = {}
 def main() -> None:
     """Main method"""
     global arguments
-    arguments = docopt(__doc__, version="1.5.1")
+    arguments = docopt(__doc__,version=f"grepshift {version('grepshift')}")
 
     if not arguments["--remove"] and not arguments["<replacement>"]:
         raise SystemExit("grepshift: <replacement> or --remove is required")
